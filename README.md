@@ -16,3 +16,7 @@ git branch
 git checkout -b nowy_branch
 
 git checkout main
+
+master -A - --------------------
+		   \				   /  (git merge second_version)
+		     second_version - B
