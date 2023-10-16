@@ -2,7 +2,7 @@
 
 ## DZIEN 1 - Powtórka z rozszerzeniem
 
-Podstawy git
+*Podstawy git
 
 git init
 git add
@@ -17,6 +17,8 @@ git checkout -b nowy_branch
 
 git checkout main
 
+```
 master -A - --------------------
 		   \				   /  (git merge second_version)
 		     second_version - B
+```
