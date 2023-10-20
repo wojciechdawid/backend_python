@@ -1,0 +1,5 @@
+Produkt,Kategoria,Cena,Ilość
+Chleb,Pieczywo,2.50,10
+Mleko,Nabiał,1.20,20
+Jajka,Nabiał,1.80,30
+Pomarańcze,Owoce,2.00,15
