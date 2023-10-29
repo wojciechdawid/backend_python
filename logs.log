@@ -1,0 +1,16 @@
+INFO:__main__:Wywo³ujê funkcje add z parametrami a=1, b=2
+ERROR:__main__:Wyst¹pi³ b³¹d
+Traceback (most recent call last):
+  File "C:\Users\kurs\AppData\Local\Temp\ipykernel_1152\3855848797.py", line 43, in main
+    result = operations[op](a, b)
+             ~~~~~~~~~~^^^^
+KeyError: '1'
+INFO:__main__:Wywo³ujê funkcje div z parametrami a=1, b=0
+ERROR:__main__:Dzielenie przez zero!!!
+2023-10-29 11:29:01,608 - ERROR - Wyst¹pi³ b³¹d
+Traceback (most recent call last):
+  File "C:\Users\kurs\AppData\Local\Temp\ipykernel_2764\204360287.py", line 43, in main
+    result = operations[op](a, b)
+             ~~~~~~~~~~^^^^
+KeyError: '1'
+2023-10-29 11:29:25,198 - INFO - Wywo³ujê funkcje add z parametrami a=1, b=2
