@@ -76,7 +76,17 @@ class Circle:
         """Checks if first circle is bigger or equal than the second"""
         return self.__radius >= other.__radius
 
+    def __add__(self, other):
+        """Adds two instances and creates a new one based on their area"""
+        if isinstance(other, Circle):
+            return Circle(math.sqrt((self.__area + other.__area) / math.pi))
+        else:
+            raise TypeError("Both objects must be instances of a Circle class!")
+
 
 if __name__ == '__main__':
     c = Circle(10)
     assert c.area == round(math.pi * 10 ** 2, 2)
+    c2 = Circle(20)
+    c3 = c + c2
+    assert isinstance(c3, Circle)
