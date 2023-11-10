@@ -56,7 +56,27 @@ class Circle:
         """Returns text representation of an instance"""
         return f'Okrąg o średnicy {round(self.__radius, 2)}.'
 
+    def __ne__(self, other) -> bool:
+        """Checks if two instances of a class are not equal"""
+        return self.__radius != other.__radius
+
+    def __lt__(self, other) -> bool:
+        """Checks if first circle is smaller than the second"""
+        return self.__radius < other.__radius
+
+    def __le__(self, other) -> bool:
+        """Checks if first circle is smaller or equal than the second"""
+        return self.__radius <= other.__radius
+
+    def __gt__(self, other) -> bool:
+        """Checks if first circle is bigger than the second"""
+        return self.__radius > other.__radius
+
+    def __ge__(self, other) -> bool:
+        """Checks if first circle is bigger or equal than the second"""
+        return self.__radius >= other.__radius
+
 
 if __name__ == '__main__':
-    c = Circle(5)
-    print(c.area)
+    c = Circle(10)
+    assert c.area == round(math.pi * 10 ** 2, 2)
