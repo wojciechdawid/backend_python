@@ -1,31 +1,23 @@
-import abc
 import math
 from abc import ABC, abstractmethod
 
 
 class Figure(ABC):
-    def __init__(self, dimension):
+    def __init__(self, dimension: int | float):
         self.dimension = dimension
-    @abstractmethod
-    def area(self):
-        pass
 
     @abstractmethod
-    def perimeter(self):
-        pass
-
-    @abstractmethod
-    def base_dim(self):
+    def base_dim(self, value: int | float) -> int | float:
         pass
 
     @property
     @abstractmethod
-    def area(self):
+    def area(self) -> int | float:
         pass
 
     @property
     @abstractmethod
-    def perimeter(self):
+    def perimeter(self) -> int | float:
         pass
 
     def __eq__(self, other) -> bool:
@@ -147,7 +139,7 @@ class Circle(Figure):
         else:
             raise ValueError("Area must be a positive numerical value!")
 
-    def base_dim(self, value: int | float):
+    def base_dim(self, value: int | float) -> int | float:
         """Calculates radius based on the area"""
         if isinstance(value, (int, float)) and value > 0:
             return math.sqrt(value / math.pi)
@@ -272,7 +264,7 @@ class Square(Figure):
         else:
             raise ValueError("Perimeter must be a positive numerical value!")
 
-    def base_dim(self, value: int | float):
+    def base_dim(self, value: int | float) -> int | float:
         """Calculates side based on the area"""
         if isinstance(value, (int, float)) and value > 0:
             return math.sqrt(value)
