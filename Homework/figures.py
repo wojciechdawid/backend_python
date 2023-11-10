@@ -1,12 +1,91 @@
+import abc
 import math
+from abc import ABC, abstractmethod
 
 
-class Circle:
-    def __init__(self, radius: int | float = 1):
+class Figure(ABC):
+    def __init__(self, dimension):
+        self.dimension = dimension
+    @abstractmethod
+    def area(self):
+        pass
+
+    @abstractmethod
+    def perimeter(self):
+        pass
+
+    @abstractmethod
+    def base_dim(self):
+        pass
+
+    @property
+    @abstractmethod
+    def area(self):
+        pass
+
+    @property
+    @abstractmethod
+    def perimeter(self):
+        pass
+
+    def __eq__(self, other) -> bool:
+        """Checks if two instances of a class are equal"""
+        if isinstance(other, Figure):
+            return self.area == other.area
+        else:
+            raise TypeError("Both objects must be instances of a Figure class!")
+
+    def __ne__(self, other) -> bool:
+        """Checks if two instances of a class are not equal"""
+        if isinstance(other, Figure):
+            return self.area != other.area
+        else:
+            raise TypeError("Both objects must be instances of a Figure class!")
+
+    def __lt__(self, other) -> bool:
+        """Checks if first circle is smaller than the second"""
+        if isinstance(other, Figure):
+            return self.area < other.area
+        else:
+            raise TypeError("Both objects must be instances of a Figure class!")
+
+    def __le__(self, other) -> bool:
+        """Checks if first circle is smaller or equal than the second"""
+        if isinstance(other, Figure):
+            return self.area <= other.area
+        else:
+            raise TypeError("Both objects must be instances of a Figure class!")
+
+    def __gt__(self, other) -> bool:
+        """Checks if first circle is bigger than the second"""
+        if isinstance(other, Figure):
+            return self.area > other.area
+        else:
+            raise TypeError("Both objects must be instances of a Figure class!")
+
+    def __ge__(self, other) -> bool:
+        """Checks if first circle is bigger or equal than the second"""
+        if isinstance(other, Figure):
+            return self.area >= other.area
+        else:
+            raise TypeError("Both objects must be instances of a Figure class!")
+
+    def __add__(self, other):
+        """Adds two instances and creates a new one based on their area"""
+        if isinstance(other, Figure):
+            return self.__class__(self.base_dim(self.area + other.area))
+        else:
+            raise TypeError("Objects must be instances of Figure class!")
+
+
+class Circle(Figure):
+    def __init__(self, dimension: int | float = 1):
         """Initializes Circle object"""
-        self.__radius: int | float = radius
-        self.__diameter = 2 * radius
-        self.__area = math.pi * radius ** 2
+        super().__init__(dimension)
+        self.__radius = dimension
+        self.__diameter = 2 * dimension
+        self.__area = math.pi * dimension ** 2
+        self.__perimeter = 2 * math.pi * dimension
 
     @property
     def radius(self) -> int | float:
@@ -39,6 +118,21 @@ class Circle:
             raise ValueError("Diameter must be a positive numerical value!")
 
     @property
+    def perimeter(self) -> int | float:
+        """Gets perimeter of a circle"""
+        return round(self.__perimeter, 2)
+
+    @perimeter.setter
+    def perimeter(self, value: int | float):
+        """Sets diameter and updates other metrics"""
+        if isinstance(value, (int, float)) and value > 0:
+            self.__perimeter = value
+            self.__radius = value / (2 * math.pi)
+            self.__area = math.pi * (value / (2 * math.pi)) ** 2
+        else:
+            raise ValueError("Perimeter must be a positive numerical value!")
+
+    @property
     def area(self) -> int | float:
         """Gets area of a circle"""
         return round(self.__area, 2)
@@ -53,79 +147,88 @@ class Circle:
         else:
             raise ValueError("Area must be a positive numerical value!")
 
+    def base_dim(self, value: int | float):
+        """Calculates radius based on the area"""
+        if isinstance(value, (int, float)) and value > 0:
+            return math.sqrt(value / math.pi)
+        else:
+            raise ValueError("Area must be a positive numerical value!")
+
     def __str__(self):
         """Returns text representation of an instance"""
         return f'Okrąg o średnicy {round(self.__radius, 2)}.'
 
-    def __eq__(self, other) -> bool:
-        """Checks if two instances of a class are not equal"""
-        if isinstance(other, Circle):
-            return self.__radius == other.__radius
-        elif isinstance(other, Square):
-            return self.__area == other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
+    # def __eq__(self, other) -> bool:
+    #     """Checks if two instances of a class are not equal"""
+    #     if isinstance(other, Circle):
+    #         return self.__radius == other.__radius
+    #     elif isinstance(other, Square):
+    #         return self.__area == other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __ne__(self, other) -> bool:
+    #     """Checks if two instances of a class are not equal"""
+    #     if isinstance(other, Circle):
+    #         return self.__radius != other.__radius
+    #     elif isinstance(other, Square):
+    #         return self.__area != other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __lt__(self, other) -> bool:
+    #     """Checks if first circle is smaller than the second"""
+    #     if isinstance(other, Circle):
+    #         return self.__radius < other.__radius
+    #     elif isinstance(other, Square):
+    #         return self.__area < other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __le__(self, other) -> bool:
+    #     """Checks if first circle is smaller or equal than the second"""
+    #     if isinstance(other, Circle):
+    #         return self.__radius <= other.__radius
+    #     elif isinstance(other, Square):
+    #         return self.__area <= other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __gt__(self, other) -> bool:
+    #     """Checks if first circle is bigger than the second"""
+    #     if isinstance(other, Circle):
+    #         return self.__radius > other.__radius
+    #     elif isinstance(other, Square):
+    #         return self.__area > other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __ge__(self, other) -> bool:
+    #     """Checks if first circle is bigger or equal than the second"""
+    #     if isinstance(other, Circle):
+    #         return self.__radius >= other.__radius
+    #     elif isinstance(other, Square):
+    #         return self.__area >= other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __add__(self, other):
+    #     """Adds two instances and creates a new one based on their area"""
+    #     if isinstance(other, Circle):
+    #         return Circle(math.sqrt((self.__area + other.__area) / math.pi))
+    #     elif isinstance(other, Square):
+    #         return Circle(math.sqrt((self.__area + other.area) / math.pi))
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle class!")
 
-    def __ne__(self, other) -> bool:
-        """Checks if two instances of a class are not equal"""
-        if isinstance(other, Circle):
-            return self.__radius != other.__radius
-        elif isinstance(other, Square):
-            return self.__area != other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
 
-    def __lt__(self, other) -> bool:
-        """Checks if first circle is smaller than the second"""
-        if isinstance(other, Circle):
-            return self.__radius < other.__radius
-        elif isinstance(other, Square):
-            return self.__area < other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
-
-    def __le__(self, other) -> bool:
-        """Checks if first circle is smaller or equal than the second"""
-        if isinstance(other, Circle):
-            return self.__radius <= other.__radius
-        elif isinstance(other, Square):
-            return self.__area <= other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
-
-    def __gt__(self, other) -> bool:
-        """Checks if first circle is bigger than the second"""
-        if isinstance(other, Circle):
-            return self.__radius > other.__radius
-        elif isinstance(other, Square):
-            return self.__area > other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
-
-    def __ge__(self, other) -> bool:
-        """Checks if first circle is bigger or equal than the second"""
-        if isinstance(other, Circle):
-            return self.__radius >= other.__radius
-        elif isinstance(other, Square):
-            return self.__area >= other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
-
-    def __add__(self, other):
-        """Adds two instances and creates a new one based on their area"""
-        if isinstance(other, Circle):
-            return Circle(math.sqrt((self.__area + other.__area) / math.pi))
-        elif isinstance(other, Square):
-            return Circle(math.sqrt((self.__area + other.area) / math.pi))
-        else:
-            raise TypeError("Both objects must be instances of a Circle class!")
-
-
-class Square:
-    def __init__(self, side: int | float = 1):
+class Square(Figure):
+    def __init__(self, dimension: int | float = 1):
+        super().__init__(dimension)
         """Initializes Square object"""
-        self.__side: int | float = side
-        self.__area = side ** 2
+        self.__side: int | float = dimension
+        self.__area = dimension ** 2
+        self.__perimeter = 4 * dimension
 
     @property
     def side(self):
@@ -154,72 +257,94 @@ class Square:
         else:
             raise ValueError("Area must be a positive numerical value!")
 
+    @property
+    def perimeter(self) -> int | float:
+        """Gets perimeter of a square"""
+        return round(self.__perimeter, 2)
+
+    @perimeter.setter
+    def perimeter(self, value: int | float):
+        """Sets perimeter and updates other metrics"""
+        if isinstance(value, (int, float)) and value > 0:
+            self.__perimeter = value
+            self.__side = value / 4
+            self.__area = (value / 4) ** 2
+        else:
+            raise ValueError("Perimeter must be a positive numerical value!")
+
+    def base_dim(self, value: int | float):
+        """Calculates side based on the area"""
+        if isinstance(value, (int, float)) and value > 0:
+            return math.sqrt(value)
+        else:
+            raise ValueError("Area must be a positive numerical value!")
+
     def __str__(self):
         """Returns text representation of an instance"""
         return f'Kwadrat o boku {round(self.__side, 2)}.'
 
-    def __eq__(self, other) -> bool:
-        """Checks if two instances of a class are not equal"""
-        if isinstance(other, Square):
-            return self.__side == other.__side
-        elif isinstance(other, Circle):
-            return self.__area == other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
-
-    def __ne__(self, other) -> bool:
-        """Checks if two instances of a class are not equal"""
-        if isinstance(other, Square):
-            return self.__side == other.__side
-        elif isinstance(other, Circle):
-            return self.__area != other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
-
-    def __lt__(self, other) -> bool:
-        """Checks if first circle is smaller than the second"""
-        if isinstance(other, Square):
-            return self.__side < other.__side
-        elif isinstance(other, Circle):
-            return self.__area < other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
-
-    def __le__(self, other) -> bool:
-        """Checks if first circle is smaller or equal than the second"""
-        if isinstance(other, Square):
-            return self.__side <= other.__side
-        elif isinstance(other, Circle):
-            return self.__area <= other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
-
-    def __gt__(self, other) -> bool:
-        """Checks if first circle is bigger than the second"""
-        if isinstance(other, Square):
-            return self.__side > other.__side
-        elif isinstance(other, Circle):
-            return self.__area > other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
-
-    def __ge__(self, other) -> bool:
-        """Checks if first circle is bigger or equal than the second"""
-        if isinstance(other, Square):
-            return self.__side >= other.__side
-        elif isinstance(other, Circle):
-            return self.__area >= other.area
-        else:
-            raise TypeError("Both objects must be instances of a Circle or Square class!")
-
-    def __add__(self, other):
-        """Adds two instances and creates a new one based on their area"""
-        if isinstance(other, Square):
-            return Square(math.sqrt(self.__area + other.__area))
-        elif isinstance(other, Circle):
-            return Square(math.sqrt(self.__area + other.area))
-        else:
-            raise TypeError("Objects must be instances of Circle or Square class!")
+    # def __eq__(self, other) -> bool:
+    #     """Checks if two instances of a class are not equal"""
+    #     if isinstance(other, Square):
+    #         return self.__side == other.__side
+    #     elif isinstance(other, Circle):
+    #         return self.__area == other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __ne__(self, other) -> bool:
+    #     """Checks if two instances of a class are not equal"""
+    #     if isinstance(other, Square):
+    #         return self.__side == other.__side
+    #     elif isinstance(other, Circle):
+    #         return self.__area != other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __lt__(self, other) -> bool:
+    #     """Checks if first circle is smaller than the second"""
+    #     if isinstance(other, Square):
+    #         return self.__side < other.__side
+    #     elif isinstance(other, Circle):
+    #         return self.__area < other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __le__(self, other) -> bool:
+    #     """Checks if first circle is smaller or equal than the second"""
+    #     if isinstance(other, Square):
+    #         return self.__side <= other.__side
+    #     elif isinstance(other, Circle):
+    #         return self.__area <= other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __gt__(self, other) -> bool:
+    #     """Checks if first circle is bigger than the second"""
+    #     if isinstance(other, Square):
+    #         return self.__side > other.__side
+    #     elif isinstance(other, Circle):
+    #         return self.__area > other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __ge__(self, other) -> bool:
+    #     """Checks if first circle is bigger or equal than the second"""
+    #     if isinstance(other, Square):
+    #         return self.__side >= other.__side
+    #     elif isinstance(other, Circle):
+    #         return self.__area >= other.area
+    #     else:
+    #         raise TypeError("Both objects must be instances of a Circle or Square class!")
+    #
+    # def __add__(self, other):
+    #     """Adds two instances and creates a new one based on their area"""
+    #     if isinstance(other, Square):
+    #         return Square(math.sqrt(self.__area + other.__area))
+    #     elif isinstance(other, Circle):
+    #         return Square(math.sqrt(self.__area + other.area))
+    #     else:
+    #         raise TypeError("Objects must be instances of Circle or Square class!")
 
 
 if __name__ == '__main__':
