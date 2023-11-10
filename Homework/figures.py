@@ -3,12 +3,12 @@ import math
 
 class Circle:
     def __init__(self, radius=1):
-        self.__radius = radius
-        self.__diameter = 2 * radius
-        self.__area = math.pi * radius ** 2
+        self.__radius: int | float = radius
+        self.__diameter: int | float = 2 * radius
+        self.__area: int | float = math.pi * radius ** 2
 
     @property
-    def radius(self):
+    def radius(self) -> int | float:
         """Gets radius of a circle"""
         return round(self.__radius, 2)
 
@@ -23,7 +23,7 @@ class Circle:
             raise ValueError('Radius must be a positive numeric value!')
 
     @property
-    def diameter(self):
+    def diameter(self) -> int | float:
         """Gets diameter of a circle"""
         return round(self.__diameter, 2)
 
@@ -38,7 +38,7 @@ class Circle:
             raise ValueError("Diameter must be a positive numeric value!")
 
     @property
-    def area(self):
+    def area(self) -> int | float:
         """Gets area of a circle"""
         return round(self.__area, 2)
 
